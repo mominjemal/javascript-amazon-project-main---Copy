@@ -24,3 +24,10 @@ export function addToCart(selectedQuantity, productId) {
     });
   }
 }
+
+export function removeFromCart(productId) {
+  const index = cart.findIndex((cartItem) => cartItem.id === productId);
+  if (index !== -1) {
+    cart.splice(index, 1);
+  }
+}

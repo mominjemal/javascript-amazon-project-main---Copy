@@ -1,7 +1,8 @@
-import { cart } from "../data/cart.js";
+import { cart, removeFromCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatPrice } from "./util/money.js";
 let checkoutHtml = "";
+const deleteButton = document.querySelector(".delete-quantity-link");
 
 cart.forEach((cartItem) => {
   const product = products.find((product) => product.id === cartItem.id);
@@ -32,7 +33,8 @@ cart.forEach((cartItem) => {
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="delete-quantity-link link-primary js-delete-link
+                  " data-product-id="${product.id}">
                     Delete
                   </span>
                 </div>
@@ -87,3 +89,11 @@ cart.forEach((cartItem) => {
   }
 });
 document.querySelector(".js-order-summary").innerHTML = checkoutHtml;
+console.log(cart);
+
+document.querySelectorAll(".js-delete-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const productId = link.getAttribute("data-product-id");
+    removeFromCart(productId);
+  });
+});
