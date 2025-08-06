@@ -22,7 +22,7 @@ cart.forEach((cartItem) => {
                  ${product.name}
                 </div>
                 <div class="product-price">
-                  $${formatPrice(product.priceCents)}
+                  ${formatPrice(product.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>

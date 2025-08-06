@@ -1,4 +1,4 @@
-export const cart = [
+export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 1,
@@ -8,6 +8,10 @@ export const cart = [
     quantity: 2,
   },
 ];
+function saveToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
 export function addToCart(selectedQuantity, productId) {
   let matchingProduct;
   cart.forEach((cartItem) => {
@@ -23,6 +27,7 @@ export function addToCart(selectedQuantity, productId) {
       quantity: selectedQuantity,
     });
   }
+  saveToLocalStorage();
 }
 
 export function removeFromCart(productId) {
@@ -30,4 +35,5 @@ export function removeFromCart(productId) {
   if (index !== -1) {
     cart.splice(index, 1);
   }
+  saveToLocalStorage();
 }
