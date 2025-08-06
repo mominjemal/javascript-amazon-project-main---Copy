@@ -1,5 +1,6 @@
 import { cart, addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
+//import { formatPrice } from "./checkout.js";
 let productHtML = "";
 products.forEach((product) => {
   productHtML += `
@@ -91,6 +92,7 @@ function addAddedMessage(addedToCartElement) {
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
+    // formatPrice();
     const productId = button.dataset.productId;
     const selectElement = document.querySelector(
       `.js-quantity-selecter-${productId}`
