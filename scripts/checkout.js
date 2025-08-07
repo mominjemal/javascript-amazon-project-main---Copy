@@ -2,7 +2,6 @@ import { cart, removeFromCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatPrice } from "./util/money.js";
 let checkoutHtml = "";
-const deleteButton = document.querySelector(".delete-quantity-link");
 
 cart.forEach((cartItem) => {
   const product = products.find((product) => product.id === cartItem.id);
@@ -89,12 +88,28 @@ cart.forEach((cartItem) => {
   }
 });
 document.querySelector(".js-order-summary").innerHTML = checkoutHtml;
-console.log(cart);
 
 document.querySelectorAll(".js-delete-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productId = link.getAttribute("data-product-id");
     removeFromCart(productId);
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+    checkoutCart();
   });
 });
+
+function checkoutCart() {
+  let cartQuantity = 0;
+  if (cart.length !== 0) {
+    cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
+    });
+  } else {
+    cartQuantity = 0;
+  }
+
+  document.querySelector(
+    ".js-cart-quantity-checkout"
+  ).innerHTML = `${cartQuantity} items`;
+}
+checkoutCart();
