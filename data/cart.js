@@ -8,7 +8,7 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [
     quantity: 2,
   },
 ];
-function saveToLocalStorage() {
+export function saveToLocalStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
@@ -43,4 +43,13 @@ export function updateCartQuantity() {
     cartQuantity += cartItem.quantity;
   });
   localStorage.setItem("cartQuantity", cartQuantity);
+}
+export function updateQuatity(productId, newQuantity) {
+  const cartItem = cart.find((item) => item.id === productId);
+  if (cartItem) {
+    cartItem.quantity = newQuantity;
+    saveToLocalStorage();
+  } else {
+    console.error("Product not found in cart");
+  }
 }
