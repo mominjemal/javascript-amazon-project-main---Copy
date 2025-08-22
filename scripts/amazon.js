@@ -64,10 +64,10 @@ const cartQuantity = Number(localStorage.getItem("cartQuantity"));
 document.querySelector(".js-cart-quantity").innerHTML =
   cartQuantity > 0 ? cartQuantity : "";
 
-let isTimerRunning = false;
-let setTimeoutId;
-let setTimeoutId2;
 function addAddedMessage(addedToCartElement) {
+  let isTimerRunning = false;
+  let setTimeoutId;
+  let setTimeoutId2;
   if (!isTimerRunning) {
     clearTimeout(setTimeoutId2);
 
