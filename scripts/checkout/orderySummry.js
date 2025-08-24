@@ -7,14 +7,15 @@ import {
   saveToLocalStorage,
 } from "../../data/cart.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
-import { products } from "../../data/products.js";
+import { products, getProductById } from "../../data/products.js";
 import { formatPrice } from "../util/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 export function renderCheckout() {
   let checkoutHtml = "";
 
   cart.forEach((cartItem) => {
-    const product = products.find((product) => product.id === cartItem.id);
+    const product = getProductById(cartItem.id);
     let x =
       cartItem.deliveryOptionId === "1"
         ? 7
@@ -39,7 +40,7 @@ export function renderCheckout() {
                  ${product.name}
                 </div>
                 <div class="product-price">
-                  ${formatPrice(product.priceCents)}
+                  $${formatPrice(product.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -121,6 +122,7 @@ export function renderCheckout() {
       document.querySelector(
         ".js-cart-quantity-checkout"
       ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
+      renderPaymentSummary();
     });
   });
 
@@ -174,6 +176,7 @@ export function renderCheckout() {
           ".js-cart-quantity-checkout"
         ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
       }
+      renderPaymentSummary();
     });
     const productId = link.getAttribute("data-product-id");
     const input = document.querySelector(
@@ -184,6 +187,7 @@ export function renderCheckout() {
         if (event.key === "Enter") {
           link.click();
         }
+        renderPaymentSummary();
       });
     }
   });
@@ -192,6 +196,7 @@ export function renderCheckout() {
       const { productId, deliveryOptionId } = option.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderCheckout();
+      renderPaymentSummary();
     });
   });
 }
