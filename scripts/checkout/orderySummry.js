@@ -6,26 +6,25 @@ import {
   updateDeliveryOption,
   saveToLocalStorage,
 } from "../../data/cart.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import {
+  deliveryOptions,
+  getDeliveryOptionById,
+} from "../../data/deliveryOptions.js";
 import { products, getProductById } from "../../data/products.js";
 import { formatPrice } from "../util/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
+import { calculateDeliveryDate } from "./calculateDeliveryDate.js";
 export function renderCheckout() {
   let checkoutHtml = "";
 
   cart.forEach((cartItem) => {
     const product = getProductById(cartItem.id);
-    let x =
-      cartItem.deliveryOptionId === "1"
-        ? 7
-        : cartItem.deliveryOptionId === "2"
-        ? 3
-        : 1;
+    const deliveryOption = getDeliveryOptionById(cartItem.deliveryOptionId);
+
     if (product) {
-      const today = dayjs();
-      const deliveryDate = today.add(x, "day");
-      const deliveryDateString = deliveryDate.format("dddd,MMMM D");
+      const deliveryDateString = calculateDeliveryDate(deliveryOption);
       checkoutHtml += `
         <div class="cart-item-container js-cart-item-container-${product.id}">
             <div class="delivery-date js-delivery-date">
@@ -81,17 +80,15 @@ export function renderCheckout() {
   function deliveryOptionsHtml(productId, cartItem) {
     let html = "";
 
-    deliveryOptions.forEach((deliveryOptions) => {
-      const today = dayjs();
-      const deliveryDate = today.add(deliveryOptions.deliveryDays, "day");
-      const deliveryDateString = deliveryDate.format("dddd,MMMM D");
+    deliveryOptions.forEach((deliveryOption) => {
+      const deliveryDateString = calculateDeliveryDate(deliveryOption);
       const priceString =
-        deliveryOptions.priceCents === 0
+        deliveryOption.priceCents === 0
           ? "FREE"
-          : formatPrice(deliveryOptions.priceCents);
-      const isChecked = deliveryOptions.id === cartItem.deliveryOptionId;
+          : formatPrice(deliveryOption.priceCents);
+      const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
       html += `<div class="delivery-option js-delivery-option" data-product-id="${productId}" data-delivery-option-id="${
-        deliveryOptions.id
+        deliveryOption.id
       }">
                   <input type="radio" 
                    ${isChecked ? "checked" : ""}
@@ -119,17 +116,13 @@ export function renderCheckout() {
       removeFromCart(productId);
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       updateCartQuantity();
-      document.querySelector(
-        ".js-cart-quantity-checkout"
-      ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
+      renderCheckoutHeader();
       renderPaymentSummary();
     });
   });
 
   updateCartQuantity();
-  document.querySelector(
-    ".js-cart-quantity-checkout"
-  ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
+  renderCheckoutHeader();
 
   document.querySelectorAll(".js-update-quantity-link").forEach((link) => {
     link.addEventListener("click", () => {
@@ -150,9 +143,7 @@ export function renderCheckout() {
         removeFromCart(productId);
         document.querySelector(`.js-cart-item-container-${productId}`).remove();
         updateCartQuantity();
-        document.querySelector(
-          ".js-cart-quantity-checkout"
-        ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
+        renderCheckoutHeader();
       } else if (y < 0) {
         alert("Quantity cannot be less than 0");
         return;
@@ -172,9 +163,7 @@ export function renderCheckout() {
         x.classList.remove("is-editing-quantity");
 
         updateCartQuantity();
-        document.querySelector(
-          ".js-cart-quantity-checkout"
-        ).innerHTML = `${localStorage.getItem("cartQuantity")} items`;
+        renderCheckoutHeader();
       }
       renderPaymentSummary();
     });
