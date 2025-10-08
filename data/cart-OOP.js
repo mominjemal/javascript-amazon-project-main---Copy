@@ -1,6 +1,6 @@
 function Cart(localStorageKey) {
   const cart = {
-  cartItem: JSON.parse(localStorage.getItem(localStorageKey)) || [
+    cartItem: JSON.parse(localStorage.getItem(localStorageKey)) || [
       {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
         quantity: 1,
@@ -13,7 +13,7 @@ function Cart(localStorageKey) {
       },
     ],
     saveToLocalStorage() {
-  localStorage.setItem(localStorageKey, JSON.stringify(this.cartItem));
+      localStorage.setItem(localStorageKey, JSON.stringify(this.cartItem));
     },
 
     addToCart(selectedQuantity, productId) {
@@ -83,5 +83,5 @@ function Cart(localStorageKey) {
 const cart = Cart("cart-oop");
 const businessCart = Cart("cart-business");
 cart.addToCart(2, "e43638ce-6aa0-4b85-b27f-e1d07eb678c6");
-console.log(cart);
-console.log(businessCart);
+//console.log(cart);
+//console.log(businessCart);
