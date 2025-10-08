@@ -1,8 +1,8 @@
-import { cart, addToCart, updateCartQuantity } from "../data/cart.js";
+import { cart /*addToCart, updateCartQuantity */ } from "../data/cart-class.js";
 import { products } from "../data/products.js";
 import { formatPrice } from "./util/money.js";
 let productHtML = "";
-updateCartQuantity();
+cart.updateCartQuantity();
 products.forEach((product) => {
   productHtML += `
      <div class="product-container">
@@ -97,8 +97,8 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       `.js-added-to-cart-${productId}`
     );
     const selectedQuantity = selectElement ? Number(selectElement.value) : 1;
-    addToCart(selectedQuantity, productId);
-    updateCartQuantity();
+    cart.addToCart(selectedQuantity, productId);
+    cart.updateCartQuantity();
     const cartQuantity = Number(localStorage.getItem("cartQuantity"));
     document.querySelector(".js-cart-quantity").innerHTML =
       cartQuantity > 0 ? cartQuantity : "";

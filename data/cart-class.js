@@ -78,9 +78,5 @@ class Cart {
   }
 }
 
-const cart = new Cart("cart-oop");
-const businessCart = new Cart("cart-business");
-
-cart.addToCart(2, "82bb68d7-ebc9-476a-989c-c78a40ee5cd9");
-console.log(cart);
-console.log(businessCart);
+export const cart = new Cart("cart-oop");
+export const businessCart = new Cart("cart-business");

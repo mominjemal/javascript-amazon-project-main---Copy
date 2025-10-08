@@ -1,11 +1,11 @@
 import {
-  cart,
+  cart /*
   removeFromCart,
   updateCartQuantity,
   updateQuatity,
   updateDeliveryOption,
-  saveToLocalStorage,
-} from "../../data/cart.js";
+  */,
+} from "../../data/cart-class.js";
 import {
   deliveryOptions,
   getDeliveryOptionById,
@@ -19,7 +19,7 @@ import { calculateDeliveryDate } from "./calculateDeliveryDate.js";
 export function renderCheckout() {
   let checkoutHtml = "";
 
-  cart.forEach((cartItem) => {
+  cart.cartItem.forEach((cartItem) => {
     const product = getProductById(cartItem.id);
     const deliveryOption = getDeliveryOptionById(cartItem.deliveryOptionId);
 
@@ -113,15 +113,15 @@ export function renderCheckout() {
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.getAttribute("data-product-id");
-      removeFromCart(productId);
+      cart.removeFromCart(productId);
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
-      updateCartQuantity();
+      cart.updateCartQuantity();
       renderCheckoutHeader();
       renderPaymentSummary();
     });
   });
 
-  updateCartQuantity();
+  cart.updateCartQuantity();
   renderCheckoutHeader();
 
   document.querySelectorAll(".js-update-quantity-link").forEach((link) => {
@@ -140,15 +140,15 @@ export function renderCheckout() {
       );
       const y = Number(input.value);
       if (y == 0) {
-        removeFromCart(productId);
+        cart.removeFromCart(productId);
         document.querySelector(`.js-cart-item-container-${productId}`).remove();
-        updateCartQuantity();
+        cart.updateCartQuantity();
         renderCheckoutHeader();
       } else if (y < 0) {
         alert("Quantity cannot be less than 0");
         return;
       } else {
-        updateQuatity(productId, y);
+        cart.updateQuantity(productId, y);
 
         const quantityLabel = document.querySelector(
           `.js-cart-item-container-${productId} .quantity-label`
@@ -162,7 +162,7 @@ export function renderCheckout() {
         );
         x.classList.remove("is-editing-quantity");
 
-        updateCartQuantity();
+        cart.updateCartQuantity();
         renderCheckoutHeader();
       }
       renderPaymentSummary();
@@ -183,7 +183,7 @@ export function renderCheckout() {
   document.querySelectorAll(".js-delivery-option").forEach((option) => {
     option.addEventListener("click", () => {
       const { productId, deliveryOptionId } = option.dataset;
-      updateDeliveryOption(productId, deliveryOptionId);
+      cart.updateDeliveryOption(productId, deliveryOptionId);
       renderCheckout();
       renderPaymentSummary();
     });
