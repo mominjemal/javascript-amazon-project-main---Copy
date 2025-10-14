@@ -49,7 +49,6 @@ const cloth = new Clothing({
   type: "clothing",
   sizeChartLink: "images/clothing-size-chart.png",
 });
-console.log(cloth);
 
 export function getProductById(productId) {
   return products.find((product) => product.id === productId);
