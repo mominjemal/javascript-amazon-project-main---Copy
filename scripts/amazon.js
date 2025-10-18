@@ -1,6 +1,7 @@
 import { cart /*addToCart, updateCartQuantity */ } from "../data/cart-class.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatPrice } from "./util/money.js";
+function renderProducts() {
 let productHtML = "";
 cart.updateCartQuantity();
 products.forEach((product) => {
