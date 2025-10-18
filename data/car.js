@@ -27,21 +27,21 @@ class Car {
     if (!this.isTrunkOpen) {
       if (this.speed < 200) {
         this.speed += 5;
-        console.log(`car is going at ${this.speed} km/h`);
+        //console.log(`car is going at ${this.speed} km/h`);
       } else {
-        console.log("max speed reached");
+        //console.log("max speed reached");
       }
     } else {
-      console.log("close the trunk first");
+      //console.log("close the trunk first");
     }
   }
   brake() {
     if (this.speed > 4) {
       if (this.speed == 5) {
-        console.log("car has stopped");
+        // console.log("car has stopped");
       } else {
         this.speed -= 5;
-        console.log(`car is going at ${this.speed} km/h`);
+        //console.log(`car is going at ${this.speed} km/h`);
       }
     }
   }
@@ -66,17 +66,17 @@ class racaeCar extends Car {
     if (!this.isTrunkOpen) {
       if (this.speed < 300) {
         this.speed += this.accelaration;
-        console.log(`car is going at ${this.speed} km/h`);
+        //console.log(`car is going at ${this.speed} km/h`);
       } else {
-        console.log("max speed reached");
+        //console.log("max speed reached");
       }
     } else {
-      console.log("close the trunk first");
+      //console.log("close the trunk first");
     }
   }
 }
 const race1 = new racaeCar("ferrari", "488", 20);
-console.log(race1);
+//console.log(race1);
 race1.go();
 race1.go();
 race1.brake();
