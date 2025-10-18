@@ -65,3 +65,12 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
     console.error("Product not found in cart");
   }
 }
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    console.log(Response);
+    fun();
+  });
+  xhr.open("GET", "https://supersimplebackend.dev/cart");
+  xhr.send();
+}
