@@ -1,7 +1,10 @@
 import { cart } from "../data/cart-class.js";
 import { loadProductsFetch } from "../data/products.js";
+async function loadProducts() {
+  let products = await loadProductsFetch();
+}
 
-const products = await loadProductsFetch();
+const products = loadProductsFetch().then((products) => products);
 
 let productHtML = "";
 cart.updateCartQuantity();
